@@ -11,11 +11,16 @@ rem  (skills, MCPs, tokens).
 rem
 rem  La Desktop carga su UI empaquetada (openchamber-ui://app) con
 rem  el server de WSL como API: es el unico origen que el bridge de
-rem  escritorio (isLocalSender) considera local en v1.18.2. NO usar
+rem  escritorio (isLocalSender) considera local. NO usar
 rem  OPENCHAMBER_ELECTRON_LOAD_SERVER_UI=1: al cargar la UI remota
 rem  (http://localhost:3001) la Desktop rechaza comandos IPC como
 rem  desktop_ssh_*, desktop_get_installed_apps y check_for_updates
 rem  (se ven "[ipc] rejected ... from non-local origin").
+rem
+rem  Verificado con openchamber 2.0.2 (Desktop 2.0.2 + server 2.0.2).
+rem  El requisito no es una version concreta: es usar la UI empaquetada
+rem  y no la remota. Si un upgrade rompe el bridge, el sintoma sera el
+rem  "[ipc] rejected ... from non-local origin" de arriba.
 rem
 rem  Si la Desktop ya esta abierta, la CIERRA primero (restart) para
 rem  que no se quede con su server de Windows (sin historial).

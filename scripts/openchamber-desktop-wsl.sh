@@ -53,6 +53,15 @@ if [ ! -f "$TEMPLATE" ]; then
   exit 1
 fi
 
+# Mantiene opencode y openchamber al dia antes de arrancar la Desktop.
+# Se hace aqui, y no en el Makefile, para que tambien aplique cuando el
+# launcher se invoca desde el Makefile de un proyecto. upgrade.sh siempre
+# sale con 0: sin red o sin permiso, el arranque continua igual.
+# SKIP_UPGRADE=1 lo desactiva.
+if [ "${SKIP_UPGRADE:-0}" != "1" ] && [ -f "${SCRIPT_DIR}/upgrade.sh" ]; then
+  bash "${SCRIPT_DIR}/upgrade.sh" || true
+fi
+
 mkdir -p "$BIN_DIR"
 # Normaliza a LF, sustituye y vuelve a CRLF (el sed deja LF en las líneas
 # modificadas, así que sin normalizar habría mezcla CRLF/LF).
