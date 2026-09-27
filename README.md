@@ -1,11 +1,10 @@
-# _openchamber
+# openchamber-wsl
 
 Lanzar **OpenChamber** (Desktop nativa o UI web) contra el `opencode` que
 corre dentro de WSL, apuntando a un proyecto concreto.
 
-Existe porque esos scripts estaban copiados byte a byte en varios
-proyectos, y cuando opencode se movió a `~/.opencode/bin` (config v2) **los
-tres fellaron a la vez** con el mismo error. Aquí hay una sola copia.
+Clónalo en `~/projects/_openchamber`; es donde apuntan los Makefiles de los
+proyectos (`OPENCHAMBER_COMMON`).
 
 ## Requisitos
 
