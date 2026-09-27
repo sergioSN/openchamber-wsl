@@ -9,6 +9,11 @@
 # Uso:
 #   make openchamber-desktop                 # genera, instala y lanza
 #   make openchamber-desktop OPENCHAMBER_DESKTOP_PORT=4000
+#   OPENCHAMBER_PROJECT_DIR=/ruta/al/proyecto ./openchamber-desktop-wsl.sh
+#
+# El proyecto es el directorio desde el que se invoca (pwd). Se puede
+# forzar con OPENCHAMBER_PROJECT_DIR, que es lo que hace el Makefile de
+# este repo para lanzar un proyecto que no es el directorio actual.
 #
 # Requiere: `openchamber` (npm i -g @openchamber/web) en WSL y
 # OpenChamber Desktop instalado en Windows.
@@ -21,7 +26,12 @@ if [ -z "$DISTRO" ]; then
   DISTRO="$(wsl.exe -l -q 2>/dev/null | tr -d '\0' | grep -iv "Windows" | grep -v '^[[:space:]]*$' | head -n1 | tr -d '[:space:]')"
 fi
 [ -z "$DISTRO" ] && DISTRO="Ubuntu"
-PROJECT_DIR="$(pwd)"
+PROJECT_DIR="${OPENCHAMBER_PROJECT_DIR:-$(pwd)}"
+if [ ! -d "$PROJECT_DIR" ]; then
+  echo "El proyecto no existe: $PROJECT_DIR" >&2
+  echo "Indica uno válido con OPENCHAMBER_PROJECT_DIR=... o PROJECT=..." >&2
+  exit 1
+fi
 
 WIN_PROFILE_RAW="$(cmd.exe /d /s /c "echo %USERPROFILE%" 2>/dev/null | tr -d '\0\r' | grep -E '^[A-Za-z]:\\' | head -n1 || true)"
 if [ -z "$WIN_PROFILE_RAW" ]; then
